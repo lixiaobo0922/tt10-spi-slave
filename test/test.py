@@ -45,8 +45,8 @@ async def test_spi_slave(dut):
         await ClockCycles(dut.clk, 5) # 必须等待，让芯片内部检测到同步后的 SCK 上升沿
         
         # 采样 MISO (uo_out[0])
-        # 先读取整个 8 位的值，然后取最低位 (LSB)
-        uo_val = dut.uo_out.value
+        # 将 LogicArray 转换为整数，然后再进行位移操作
+        uo_val = int(dut.uo_out.value)
         bit = (uo_val >> 0) & 1
         read_data = (read_data << 1) | bit
         
